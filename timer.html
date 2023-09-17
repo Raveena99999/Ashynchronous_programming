@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Timer</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 250px;
+          }
+
+          label {
+            font-weight: bold;
+          }
+
+          input[type="number"] {
+            width: 50px;
+            padding: 7px;
+            border-radius: 5px;
+            border: 2px solid grey;
+            background-color: pink;
+            margin-top: 20px;
+          }
+          button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: pink;
+            border: 2px solid grey;
+            border-radius: 5px;
+          }
+
+          #display {
+            font-size: 36px;
+            margin-top: 20px;
+          }
+          #main {
+            border: 2px solid black;
+            border-radius: 40%;
+            width: 80%;
+            margin: auto;
+            height: 220px;
+            background-color: plum;
+          }
+        </style>
+      </head>
+      <body>
+        <div id="main">
+          <h1>TIMER</h1>
+          <label for="">hour:</label>
+          <input type="number" id="inp1" value="0" />
+          <label for="">minutes:</label>
+
+          <input type="number" id="inp2" value="0" />
+          <label for="">seconds:</label>
+
+          <input type="number" id="inp3" value="0" />
+          <button id="st">start</button>
+          <button id="ps">pause</button>
+          <button id="rst">reset</button>
+          <div id="display">00:00:00</div>
+        </div>
+      </body>
+      <script>
+        let START = document.getElementById("st");
+        let PAUSE = document.getElementById("ps");
+        let RESET = document.getElementById("rst");
+        let DISPLAY = document.getElementById("display");
+        let HOUR = document.getElementById("inp1");
+        let MINUTES = document.getElementById("inp2");
+        let SECONDS = document.getElementById("inp3");
+        let flag = false;
+        let hour;
+        let minute;
+        let seconds;
+        let id;
+        function timer() {
+          if (hour <= 0 && minute <= 0 && seconds <= 0) {
+            // flag = true ;  // to stop the loop
+            clearInterval(id);
+            // START.disabled = false;
+          } else {
+            seconds--;
+            if (seconds === -1) {
+              seconds = 59;
+              minute--;
+              if (minute === -1) {
+                minute = 59;
+                hour--;
+              }
+            }
+            DISPLAY.textContent =
+              (hour < 10 ? "0" + hour : hour) +
+              ":" +
+              (minute < 10 ? "0" + minute : minute) +
+              ":" +
+              (seconds < 10 ? "0" + seconds : seconds);
+          }
+        }
+
+        START.addEventListener("click", function () {
+          if (!flag) {
+            hour = parseInt(HOUR.value);
+            minute = parseInt(MINUTES.value);
+            seconds = parseInt(SECONDS.value);
+          }
+          id = setInterval(timer, 1000);
+          START.disabled = true;
+          PAUSE.disabled = false;
+          RESET.disabled = false;
+          flag = false;
+        });
+
+        PAUSE.addEventListener("click", function () {
+          clearInterval(id);
+          START.disabled = false;
+          PAUSE.disabled = true;
+          RESET.disabled = false;
+          flag = true;
+        });
+
+        RESET.addEventListener("click", function () {
+          clearInterval(id);
+          DISPLAY.textContent = "00:00:00";
+          START.disabled = false;
+          PAUSE.disabled = true;
+          RESET.disabled = true;
+          flag = false;
+        });
+      </script>
+    </html>
+  </head>
+</html>
